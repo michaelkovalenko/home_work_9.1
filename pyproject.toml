@@ -1,0 +1,73 @@
+[project]
+name = "pythonproject2"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "michael_",email = "kaliyuga02.02.1993@gmail.com"}
+]
+requires-python = "^3.12"
+dependencies = [
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+lint = [
+    "flake8 (>=7.3.0,<8.0.0)",
+    "black (>=26.5.1,<27.0.0)",
+    "isort (>=8.0.1,<9.0.0)",
+    "mypy (>=2.1.0,<3.0.0)"
+]
+
+
+[tool.black]
+# Максимальная длина строки
+line-length = 120
+# Оптимизация под синтаксис Python 3.12
+target-version = ['py312']
+# Исключения папок, которые Black не должен форматировать
+exclude = '''
+(
+  /(
+      \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+)
+'''
+
+
+[tool.isort]
+# Длина строки
+line_length = 120
+# Совместимость со стилем форматирования Black
+profile = "black"
+# Сортировка импортов по алфавиту внутри своих групп
+force_alphabetical_sort_within_sections = true
+
+
+[tool.mypy]
+# Целевая версия Python для проверки типов
+python_version = "3.12"
+
+# Проверять код внутри функций, даже если у них нет аннотаций
+check_untyped_defs = true
+# Ругаться, если у функции ВООБЩЕ нет аннотаций типов
+disallow_untyped_defs = true
+# Ругаться, если аннотирована только часть аргументов
+disallow_incomplete_defs = true
+# Ругаться, если функция возвращает Any там, где ожидается конкретный тип
+warn_return_any = true
+
+warn_unused_ignores = true   # Ругать, если комментарий # type: ignore написан зря
+warn_redundant_casts = true  # Ругать, если тип приводится к самому себе
