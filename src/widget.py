@@ -8,14 +8,14 @@ def mask_account_card(type_and_number: str) -> str:
         return "Пустой ввод"
     elif len(words[-1]) == 16:
         if len(words) >= 2:
-            return f"{" ".join(words[:-1])} {masks.get_mask_card_number(words[-1])}"
+            return f"{' '.join(words[:-1])} {masks.get_mask_card_number(words[-1])}"
         else:
             return "Некорректный ввод. Введите название карты"
     elif len(words[-1]) == 20:
         if len(words) > 2:
             return "Введено слишком длинное значение. Оставьте только слово 'Счёт' и его номер"
         elif len(words) == 2:
-            return f"{" ".join(words[:-1])} {masks.get_mask_account(words[-1])}"
+            return f"{' '.join(words[:-1])} {masks.get_mask_account(words[-1])}"
         else:
             return "Счет " + masks.get_mask_account(words[-1])
     else:
