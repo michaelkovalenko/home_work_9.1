@@ -1,3 +1,4 @@
+from datetime import datetime
 import masks
 
 def mask_account_card(type_and_number: str) -> str:
@@ -22,8 +23,9 @@ def mask_account_card(type_and_number: str) -> str:
         return "Некорректное количество символов в номере"
 
 
-def get_date(date: str) -> str:
+def get_date(date_iso: str) -> str:
     """Принимает на вход строку с датой в формате '2024-03-11T02:26:18.671407' и возвращает строку с датой
     в формате 'ДД.ММ.ГГГГ'"""
-    new_date = date[8:10] + "." + date[5:7] + "." + date[0:4]
+    date_obj = datetime.fromisoformat(date_iso)
+    new_date = date_obj.strftime("%d.%m.%Y")
     return new_date
