@@ -1,5 +1,7 @@
 from datetime import datetime
-import masks
+
+from src import masks
+
 
 def mask_account_card(type_and_number: str) -> str:
     """Определяет тип номера, возвращает маску номера карты или счёта, в зависимости от типа номера,
