@@ -78,3 +78,11 @@ warn_return_any = true
 
 warn_unused_ignores = true   # Ругать, если комментарий # type: ignore написан зря
 warn_redundant_casts = true  # Ругать, если тип приводится к самому себе
+
+[[tool.mypy.overrides]]
+# Применяем правила ко всем файлам внутри папки tests
+module = "tests.*"
+# Разрешаем НЕ писать -> None у функций тестов
+disallow_untyped_defs = false
+# Разрешаем НЕ аннотировать аргументы в параметризации и фикстурах
+disallow_incomplete_defs = false

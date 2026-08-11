@@ -25,7 +25,7 @@ def mask_account_card(type_and_number: str) -> str:
         display_name = name_part.strip() if name_part.strip() else "Карта"
         return display_name + " " + masks.get_mask_card_number(number_part)
     elif len(clean_number) == 20:
-        return "Счет " +  masks.get_mask_account(number_part)
+        return "Счет " + masks.get_mask_account(number_part)
     else:
         raise ValueError("Неверное количество символов")
 
