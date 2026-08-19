@@ -16,3 +16,9 @@ def filter_by_currency(transactions: list[dict], currency: str) -> Iterator[dict
             and curr_2.get("code") == currency
         ):
             yield transaction
+
+
+def transaction_descriptions(transactions: list[dict]) -> Iterator[str | None]:
+    """Принимает список словарей с транзакциями и возвращает описание каждой операции по одной"""
+    for transaction in transactions:
+        yield value if isinstance((value := transaction.get("description")), str) else None
