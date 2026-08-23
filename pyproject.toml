@@ -86,3 +86,21 @@ module = "tests.*"
 disallow_untyped_defs = false
 # Разрешаем НЕ аннотировать аргументы в параметризации и фикстурах
 disallow_incomplete_defs = false
+
+
+[tool.pytest.ini_options]
+# addopts автоматически добавляет эти флаги при каждом вызове команды pytest
+# --cov=. означает "считать покрытие для текущей папки"
+# --cov-report=html создает/обновляет HTML-отчет в папке htmlcov
+# --cov-report=term-missing выводит сводку в консоль и показывает пропущенные строки
+addopts = "--cov=. --cov-report=html --cov-report=term-missing"
+
+[tool.coverage.run]
+# Исключаем из отчета сами файлы тестов и служебные папки, чтобы они не портили статистику
+omit = [
+    "tests/*",
+    "venv/*",
+    ".venv/*",
+    "setup.py",
+]
+
