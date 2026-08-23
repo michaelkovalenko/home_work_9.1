@@ -1,6 +1,6 @@
 import pytest
 
-from src.generators import filter_by_currency, transaction_descriptions
+from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 
 
 def test_filter_by_currency_valid(transactions_valid_input: list[dict], transactions_result_usd: list[dict]):
@@ -69,3 +69,85 @@ def test_transaction_descriptions_invalid_input(transactions_invalid_input_for_d
 
     with pytest.raises(StopIteration):
         next(it)
+
+
+@pytest.mark.parametrize(
+    "start, stop, expected",
+    [
+        (
+            1,
+            4,
+            [
+                "0000 0000 0000 0001",
+                "0000 0000 0000 0002",
+                "0000 0000 0000 0003",
+                "0000 0000 0000 0004",
+            ],
+        ),
+        (
+            9999999999999995,
+            9999999999999999,
+            [
+                "9999 9999 9999 9995",
+                "9999 9999 9999 9996",
+                "9999 9999 9999 9997",
+                "9999 9999 9999 9998",
+                "9999 9999 9999 9999",
+            ],
+        ),
+        (
+            1234567890123456,
+            1234567890123459,
+            [
+                "1234 5678 9012 3456",
+                "1234 5678 9012 3457",
+                "1234 5678 9012 3458",
+                "1234 5678 9012 3459",
+            ],
+        ),
+        (22, 22, ["0000 0000 0000 0022"]),
+        (9999999999999999, 9999999999999999, ["9999 9999 9999 9999"]),
+    ],
+)
+def test_card_number_generator_valid_input(start, stop, expected):
+    """Проверяет позитивные сценарии работы функции с помощью параметризации."""
+    it = card_number_generator(start, stop)
+    for number in expected:
+        assert next(it) == number
+    with pytest.raises(StopIteration):
+        next(it)
+
+
+@pytest.mark.parametrize(
+    "start, stop, text_error",
+    [
+        (0, 4, "Неверно задан диапазон номера."),
+        (4, 3, "Неверно задан диапазон номера."),
+        (1, 10000000000000000, "Неверно задан диапазон номера."),
+    ],
+)
+def test_card_number_generator_invalid_input_value(start, stop, text_error):
+    """Проверяет негативные сценарии работы функции - с некорректными значениями, с помощью параметризации."""
+    it = card_number_generator(start, stop)
+    with pytest.raises(ValueError) as value_error:
+        next(it)
+    assert str(value_error.value) == text_error
+
+
+@pytest.mark.parametrize(
+    "start, stop",
+    [
+        ("0", "5"),
+        (None, 5),
+        (1, None),
+        ([1, 2], 5),
+        (1, {"stop": 9999}),
+        (1.5, 5),
+    ],
+)
+def test_card_number_generator_invalid_input_type(start, stop):
+    """Проверяет негативные сценарии работы функции - с неверными типами входных данных, с помощью параметризации"""
+    it = card_number_generator(start, stop)  # noqa
+    with pytest.raises(TypeError) as type_error:
+        next(it)
+    assert str(type_error.value) == "Аргументы start и end должны быть целыми числами (int)!"
