@@ -56,12 +56,28 @@ for card_number in card_number_generator(1, 3):
 # 0000 0000 0000 0002
 # 0000 0000 0000 0003
 ```
+
+### Function Logging
+```python
+from src.decorators import log
+from src.widget import get_date
+
+# Logging of the required function
+get_date = log(None)(get_date)
+print(get_date("2024-03-11T02:08:58.425572"))
+
+# Output:
+# get_date ok
+# 11.03.2024
+```
+
 ## Project Structure
 
 - `masks.py` - Handles secure masking of credit card and account numbers.
 - `widget.py` - Identifies and masks payment identifiers, and formats transaction dates.
 - `processing.py` - Manages filtering datasets by state and sorting by date.
 - `generators.py` - Generates standardized bank card numbers in specified ranges.
+- `decorators.py` - Logging of the required function.
 
 ## Testing and Code Quality
 
